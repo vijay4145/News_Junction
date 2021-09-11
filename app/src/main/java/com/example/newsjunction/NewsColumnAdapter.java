@@ -1,18 +1,16 @@
 package com.example.newsjunction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-
 import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
@@ -51,6 +49,19 @@ public class NewsColumnAdapter extends RecyclerView.Adapter<NewsColumnAdapter.Vi
                 NewsModal newsModal = response.body();
                 holder.newsHeading.setText(newsModal.getArticles().get(position).getTitle());
                 Glide.with(context).load(newsModal.getArticles().get(position).getUrlToImage()).into(holder.newsImage);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, NewsDetailPage.class);
+                        intent.putExtra("ImageUrl", newsModal.getArticles().get(position).getUrlToImage());
+                        intent.putExtra("Title", newsModal.getArticles().get(position).getTitle());
+                        intent.putExtra("Author", newsModal.getArticles().get(position).getAuthor());
+                        intent.putExtra("Description", newsModal.getArticles().get(position).getDescription());
+                        intent.putExtra("NewsUrl", newsModal.getArticles().get(position).getUrl());
+                        intent.putExtra("PublishedDate", newsModal.getArticles().get(position).getPublishedAt());
+                        context.startActivity(intent);
+                    }
+                });
             }
 
             @Override
@@ -65,7 +76,7 @@ public class NewsColumnAdapter extends RecyclerView.Adapter<NewsColumnAdapter.Vi
         return 4;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView newsImage;
         public TextView newsHeading;
         public ViewHolder(@NonNull @NotNull View itemView) {
@@ -74,9 +85,5 @@ public class NewsColumnAdapter extends RecyclerView.Adapter<NewsColumnAdapter.Vi
             newsImage = itemView.findViewById(R.id.newsImage);
         }
 
-        @Override
-        public void onClick(View v) {
-
-        }
     }
 }

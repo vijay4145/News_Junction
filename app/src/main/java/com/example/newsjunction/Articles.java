@@ -7,14 +7,16 @@ public class Articles {
     private String url;
     private String urlToImage;
     private String content;
+    public String publishedAt;
 
-    public Articles(String author, String title, String description, String url, String urlToImage, String content) {
+    public Articles(String author, String title, String description, String url, String urlToImage, String content, String publishedAt) {
         this.author = author;
         this.title = title;
         this.description = description;
         this.url = url;
         this.urlToImage = urlToImage;
         this.content = content;
+        this.publishedAt = publishedAt;
     }
 
     public String getAuthor() {
@@ -64,4 +66,8 @@ public class Articles {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public String getPublishedAt() {return publishedAt;}
+
+    public void setPublishedAt(String content) {this.publishedAt = content;}
 }
