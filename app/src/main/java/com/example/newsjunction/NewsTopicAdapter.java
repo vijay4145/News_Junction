@@ -47,7 +47,11 @@ public class NewsTopicAdapter extends RecyclerView.Adapter<NewsTopicAdapter.View
         return topics.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public interface CategoryClickInterface {
+        void onCategoryClick(int position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView imageView;
         public TextView heading;
 
@@ -55,13 +59,7 @@ public class NewsTopicAdapter extends RecyclerView.Adapter<NewsTopicAdapter.View
             super(itemView);
             imageView = itemView.findViewById(R.id.topicImage);
             heading = itemView.findViewById(R.id.heading);
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            MainActivity.categorySelected = heading.getText().toString();
-            newsColumnAdapter.notifyDataSetChanged();
-        }
     }
 }
