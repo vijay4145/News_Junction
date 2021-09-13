@@ -20,12 +20,13 @@ public class NewsTopicAdapter extends RecyclerView.Adapter<NewsTopicAdapter.View
     private ArrayList<Integer> icons;
     private ArrayList<String> topics;
     private NewsColumnAdapter newsColumnAdapter;
+    private CategoryClickInterface onClickCategory;
 
-    public NewsTopicAdapter(Context context, ArrayList<Integer> icons, ArrayList<String> topics, NewsColumnAdapter newsColumnAdapter) {
+    public NewsTopicAdapter(Context context, ArrayList<Integer> icons, ArrayList<String> topics, CategoryClickInterface onClickCategory) {
         this.context = context;
         this.icons = icons;
         this.topics = topics;
-        this.newsColumnAdapter = newsColumnAdapter;
+        this.onClickCategory = onClickCategory;
     }
 
     @NonNull
@@ -33,7 +34,7 @@ public class NewsTopicAdapter extends RecyclerView.Adapter<NewsTopicAdapter.View
     @Override
     public NewsTopicAdapter.ViewHolder onCreateViewHolder(@NonNull @org.jetbrains.annotations.NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.topic, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, onClickCategory);
     }
 
     @Override
@@ -51,15 +52,22 @@ public class NewsTopicAdapter extends RecyclerView.Adapter<NewsTopicAdapter.View
         void onCategoryClick(int position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView imageView;
         public TextView heading;
+        public CategoryClickInterface onClickCategory;
 
-        public ViewHolder(@NonNull @NotNull View itemView) {
+        public ViewHolder(@NonNull @NotNull View itemView, CategoryClickInterface onClickCategory) {
             super(itemView);
             imageView = itemView.findViewById(R.id.topicImage);
             heading = itemView.findViewById(R.id.heading);
+            this.onClickCategory = onClickCategory;
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            onClickCategory.onCategoryClick(getAdapterPosition());
+        }
     }
 }

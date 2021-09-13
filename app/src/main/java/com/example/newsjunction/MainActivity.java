@@ -42,20 +42,10 @@ public class MainActivity extends AppCompatActivity implements NewsTopicAdapter.
         ArrayList<Integer> topicIcons = new ArrayList<>(Arrays.asList(R.drawable.india, R.drawable.world, R.drawable.technology, R.drawable.startups, R.drawable.politics));
 
         newsColumnAdapter = new NewsColumnAdapter(this, newsModals);
-        NewsTopicAdapter newsTopicAdapter = new NewsTopicAdapter(this, topicIcons, topicNames, newsColumnAdapter);
+        NewsTopicAdapter newsTopicAdapter = new NewsTopicAdapter(this, topicIcons, topicNames, this);
         recyclerViewTopic.setAdapter(newsTopicAdapter);
         recyclerViewNews.setAdapter(newsColumnAdapter);
         getNews("all");
-
-        recyclerViewTopic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView textView = v.findViewById(R.id.heading);
-                Log.d("errors", "clicked the " + textView.getText().toString());
-            }
-        });
-
-
     }
 
     public void getNews(String category) {
@@ -88,6 +78,5 @@ public class MainActivity extends AppCompatActivity implements NewsTopicAdapter.
     @Override
     public void onCategoryClick(int position) {
         getNews(topicNames.get(position));
-        Log.d("errors", "clicked" + topicNames.get(position));
     }
 }
