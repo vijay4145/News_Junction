@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -22,6 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NewsTopicAdapter.CategoryClickInterface{
+    public static String API_KEY = "YOUR_API_KEY";
     public ArrayList<Articles> newsModals = new ArrayList<>();
     NewsColumnAdapter newsColumnAdapter;
     ArrayList<String> topicNames;
@@ -31,6 +34,14 @@ public class MainActivity extends AppCompatActivity implements NewsTopicAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("API_KEY",MODE_PRIVATE);
+        API_KEY = sharedPreferences.getString("apiKey", "YOUR_API_KEY");
+        if (API_KEY.equals("YOUR_API_KEY")) {
+            Toast.makeText(this, "ADD YOUR API KEY\n", Toast.LENGTH_LONG);
+            Intent intent = new Intent(this, addApiKey.class);
+            startActivity(intent);
+            return ;
+        }
         RecyclerView recyclerViewTopic = findViewById(R.id.topic);
         RecyclerView recyclerViewNews = findViewById(R.id.news);
         recyclerViewTopic.setHasFixedSize(true);
@@ -51,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NewsTopicAdapter.
     public void getNews(String category) {
         newsModals.clear();
         final String baseUrl = "https://newsapi.org/";
-        String url = "v2/everything?q=" + category +"&from=2021-09-09&to=2021-09-09&sortBy=popularity&apiKey=c086c0774b3440b59881690a6988c924";
+        String url = "v2/everything?q=" + category +"&from=2021-09-09&to=2021-09-09&sortBy=popularity&apiKey=" + API_KEY;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create())
                 .build();
