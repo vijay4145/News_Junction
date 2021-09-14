@@ -14,8 +14,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NewsTopicAdapter.
     public ArrayList<Articles> newsModals = new ArrayList<>();
     NewsColumnAdapter newsColumnAdapter;
     ArrayList<String> topicNames;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +60,17 @@ public class MainActivity extends AppCompatActivity implements NewsTopicAdapter.
         NewsTopicAdapter newsTopicAdapter = new NewsTopicAdapter(this, topicIcons, topicNames, this);
         recyclerViewTopic.setAdapter(newsTopicAdapter);
         recyclerViewNews.setAdapter(newsColumnAdapter);
+        Date dated = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd");
+        date = formatter.format(dated);
         getNews("all");
+
     }
 
     public void getNews(String category) {
         newsModals.clear();
         final String baseUrl = "https://newsapi.org/";
-        String url = "v2/everything?q=" + category +"&from=2021-09-09&to=2021-09-09&sortBy=popularity&apiKey=" + API_KEY;
+        String url = "v2/everything?q=" + category +"&from=" + date + "&to=" + date + "&sortBy=popularity&apiKey=" + API_KEY;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create())
                 .build();
