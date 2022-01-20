@@ -5,3 +5,7 @@ This is simple news which fetches its data from newsorg api based on the categor
 # Tech
 
 Android studio, java, Retrofit library, glide library, cardview.
+
+# Screenshots
+
+<img src="/screenshots/screenshot1.jpeg" width=260>   <img src="/screenshots/screenshot2.jpeg" width=260>
